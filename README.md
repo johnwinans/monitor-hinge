@@ -1,9 +1,12 @@
 # A Hinge For Mounting a Display Monitor Under a Shelf
 
+As seen on YouTube!  https://youtu.be/In9N4W5g_dM
+
 The default settings match the dimensions of a ZSCMALLS Portable 15.6 Inch monitor.
 Available from Amazon in November 2011 for $129.99 (ASIN: B07VFF4TZG)
 
-Use a 1/4" threaded-rod as the hinge-pin with wingnuts on the ends.
+Use a 1/4" threaded-rod as the hinge-pin with wingnuts (or locked hex nuts) on 
+the ends.
 
 ## Mounting block 
 
