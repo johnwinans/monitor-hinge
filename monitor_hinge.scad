@@ -23,15 +23,19 @@
 // a shelf with drywall screws.
 
 uni_span=41;    // unistrut cross-section
-uni_width=40;   // the width of the mounting block
+uni_width=25;   // the width of the mounting block
 uni_height=30;  // the thickness of the mounting block
-uni_detent_depth=1; // how deep to cut the detent slot to hold monitor rotated up
+uni_detent_depth=0; // how deep to cut the detent slot to hold monitor rotated up
+uni_detent_cyl_scale=.3;    // manage the radius of the detent tongue & groove
 
 //uni_bolt_dia=10;    // suitable for 3/8" bolt (for unistrut)
 uni_bolt_dia=5;     // suitable for a drywall screw
 
 rod_hanger_dia=6.9; // suitable for 1/4" threaded rod
 rod_hanger_inset=7; // distance from hanger rod to the edge of the block
+
+uni_hexnut_dia=13.5;  // diameter for a hex nut countersink
+uni_hexnut_depth=6; // countersink depth for hexnut
 
 
 
@@ -107,6 +111,7 @@ module uniblock(left=true)
     rod_hanger_offset = -uni_height/2+rod_hanger_dia/2+rod_hanger_inset;
     groove_offset = left ? uni_width/2 : -uni_width/2;
     rot = left ? -90 : 90;
+    countersink_offset = left ? -uni_width/2 : uni_width/2;
     
     rotate([0,rot,0])   // print with detent up so not need support
     difference()
@@ -119,6 +124,10 @@ module uniblock(left=true)
         translate([0,-uni_span/2+rod_hanger_dia/2+rod_hanger_inset, rod_hanger_offset])        
             rotate([0,90,0]) cylinder(d=rod_hanger_dia, h=uni_width+.01, center=true, $fn=30);
         
+        // A countersink for a n optional hex nut
+        translate([countersink_offset,-uni_span/2+rod_hanger_dia/2+rod_hanger_inset, rod_hanger_offset])        
+            rotate([0,90,0]) cylinder(d=uni_hexnut_dia, h=uni_hexnut_depth*2, center=true, $fn=6);
+        
         // a detent slot to help hold the monitor when pushed back/up
         translate([groove_offset, 0, rod_hanger_offset]) 
         {
@@ -128,7 +137,7 @@ module uniblock(left=true)
             {
                 translate([x,0,0]) 
                     rotate([90,0,0]) 
-                    scale([.3,1,1]) 
+                    scale([uni_detent_cyl_scale,1,1]) 
                     cylinder(d=detent_dia, h=uni_span+.01, center=true, $fn=30);
             }
         }
@@ -168,7 +177,7 @@ module monitorbracket()
                 translate([x, 0, 0]) 
                 {
                     for ( x=[uni_detent_depth/2, -uni_detent_depth/2])
-                    translate([x,0,0]) scale([.3,1,1]) cylinder(d=rod_hanger_dia-1, h=mb_height, center=true, $fn=30);
+                    translate([x,0,0]) scale([uni_detent_cyl_scale,1,1]) cylinder(d=rod_hanger_dia-1, h=mb_height, center=true, $fn=30);
                    cube([uni_detent_depth, rod_hanger_dia-1, mb_height], center=true);
                 }
             }
